@@ -1,0 +1,77 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<title>CanvasWolf</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<style type="text/css">
+		html { height: 100%; }
+		body { margin: 0; padding: 0; height: 100%; }
+		#wrap {
+			margin: 0 auto; height: 100%; background-color: black; color: white;
+			font-size: medium; font-weight: bold; font-family: Futura, Tahoma, Verdana, Arial, Helvetica, sans-serif;
+			text-align: center; 
+		}
+		
+		h1 { margin: 0; padding: 20px 0 0 0; }
+
+		#view { margin: 20px auto 0 auto; width: 640px; height: 400px; border: 1px solid #ccc; }
+		#stage { width: 100%; height: 100%; }
+		#info { margin-top: 30px; }
+		
+		#startstop { width: 100px; }
+
+		.modes {
+			padding-top: 20px;
+		}
+		.modes a { color: white; }
+	</style>
+
+	<script type="text/javascript" src="JSFCore.js"></script>
+	<script type="text/javascript" src="CanvasWolf.js"></script>
+	<script type="text/javascript">
+		D_AddEvent(window, "load", function() {
+		
+			D_AddEvent(D_Elem("startstop"), "click", function(evt, type, src) {
+				if(CanvasWolf._running) {
+					CanvasWolf.Stop();
+					src.innerHTML = "Start";
+				} else {
+					CanvasWolf.Start();
+					src.innerHTML = "Stop";
+				}
+			});
+			
+			var args = ParsePropertyList(window.location.search.substr(1), "&", "=");
+			var lowRes = (args["lores"]=="1");
+			var shading = (args["shading"]=="1");
+		
+			CanvasWolf.Init(D_Elem("stage"), lowRes, shading);
+			CanvasWolf.Start();
+		});
+	</script>
+</head>
+
+<body>
+	<div id="wrap">
+		<h1>CanvasWolf</h1>
+	
+		<div id="view"><canvas id="stage"></canvas></div>
+		
+		<p id="info">Get Psyched!</p>
+		
+		<div id="ctl">
+			<button id="startstop">Stop</button>
+		</div>
+
+		<div class="modes">
+			<a href="?">Standard</a> &mdash;
+			<a href="?lores=1">Low-Res</a> &mdash;
+			<a href="?shading=1">Depth Shading</a> &mdash;
+			<a href="?lores=1&amp;shading=1">Low-Res + Depth Shading</a>
+		</div>
+	</div>
+</body>
+
+</html>
